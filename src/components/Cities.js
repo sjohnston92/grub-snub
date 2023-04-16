@@ -2,76 +2,94 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsThreeDotsVertical, BsFillTrash3Fill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import {Row,Col} from 'antd'
+import { BsX } from 'react-icons/bs';
 
-const Cities = ({ cities }) => {
+
+const Cities = ({ cities, handleDelete}) => {
   const [selectedCity, setSelectedCity] = useState(null);
   const navigate = useNavigate(); // Get the history object from react-router-dom
+  const [showX, setShowX] = useState(false);
 
   const handleDotsClick = (city) => {
+    setShowX(!showX);
     setSelectedCity((prevCity) => (prevCity === city ? null : city));
   };
 
-  const handleDelete = () => {
-    // Delete city logic here
-  };
 
   const handleContainerClick = (city) => {
-    if (city && city.name) {
-      // Redirect to city's unique URL with the city id as parameter
-      const cityId = `${city.name.toLowerCase().replace(/\s+/g, '-')}-${city.state.toLowerCase()}`;
-      navigate(`/${cityId}/grubs`); // Update the path with the city id
+    if (city) {
+      navigate(`/cities/${city.id}`); // Update the path with the city id
     }
   };
+
+  const handleCityDelete = (city) => {
+    console.log(city)
+    // Call the handleDelete function with the city's id to delete the city
+    handleDelete(city.id);
+  };
+
 
   return (
     <>
       {cities.map((city, index) => (
-        <CityContainer
-          key={index}
-          selected={city === selectedCity}
-        >
-          <div  onClick={() => handleContainerClick(city)}>
-            <CityName>{city.name}</CityName>
-          </div>
-          <DotsContainer onClick={() => handleDotsClick(city)}>
-            <BsThreeDotsVertical />
-          </DotsContainer>
-          {city === selectedCity && (
-            <FormContainer>
-              <Form>
-                {/* Add form elements here */}
-              </Form>
-              <DeleteButton onClick={handleDelete}>
-                <BsFillTrash3Fill />
-              </DeleteButton>
-            </FormContainer>
-          )}
+        <CityContainer key={index} selected={city === selectedCity}>
+          <Row gutter={[8, 8]} style={{ textAlign: 'left', width: '100%' }} align="middle" justify="space-between">
+            <Col span={20} onClick={() => handleContainerClick(city)}>
+              <CityName>{city.name}</CityName>
+            </Col>
+            <Col span={4}>
+              <DotsContainer onClick={() => handleDotsClick(city)}>
+                {showX ? (
+                  // Display X icon if showX is true
+                  <BsX />
+                ) : (
+                  // Display three dots icon if showX is false
+                  <BsThreeDotsVertical />
+                )}
+              </DotsContainer>
+            </Col>
+            <Col span={24}>
+              {city === selectedCity && (
+                // Use CSS positioning to overlay FormContainer
+                <FormContainer>
+                  <Form>
+                    {/* Render the form content */}
+                  </Form>
+                  <DeleteButton onClick={() => handleCityDelete(city)} style={{ textAlign: 'center' }}>
+                    <BsFillTrash3Fill />
+                  </DeleteButton>
+                </FormContainer>
+              )}
+            </Col>
+          </Row>
         </CityContainer>
       ))}
     </>
   );
 };
 
+
 const CityContainer = styled.div`
+  display:flex;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   text-align: center;
   border-radius: 15px;
   padding: 20px;
-  text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
   transition: all 0.3s ease;
   transform-origin: top center;
   transform: ${(props) => (props.selected ? 'scale(1.05)' : 'scale(1)')};
-  cursor: pointer; /* Add cursor pointer for clickability */
+  cursor: pointer;
 `;
 
 const CityName = styled.span`
-  /* Add any additional styles for the city name here */
+  font-size: 20px; /* set desired font size */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* set desired drop shadow */
+  line-height: 1.2; /* set desired line height */
+  letter-spacing: 1px; /* set desired letter spacing */
+  text-transform: uppercase;
 `;
 
 const DotsContainer = styled.span`
@@ -79,15 +97,7 @@ const DotsContainer = styled.span`
 `;
 
 const FormContainer = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  padding: 20px;
-  background: white;
   margin-top: 5px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 `;
 
 const Form = styled.form`

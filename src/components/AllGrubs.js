@@ -2,7 +2,7 @@ import React from 'react'
 
 const AllGrubs = () => {
   return (
-    <div>AllGrubs</div>
+    <div>Top Grubs change to top grubs please</div>
   )
 }
 
