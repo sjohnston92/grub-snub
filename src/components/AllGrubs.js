@@ -1,8 +1,13 @@
 import React from 'react'
 
-const AllGrubs = () => {
+const AllGrubs = ({grubs}) => {
   return (
-    <div>Top Grubs change to top grubs please</div>
+    <>
+    {grubs.map((grub) => (
+      <div key={grub.id}>{grub.name}</div>
+    ))}
+
+    </>
   )
 }
 
