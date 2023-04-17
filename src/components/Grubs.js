@@ -3,12 +3,17 @@ import { db } from '../firebase'; // Import the db object from firebase.js
 import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import styled from 'styled-components';
 import FoodBack from '../images/foodBacker.jpeg'
-import { collection, doc, setDoc, getDocs, addDoc, updateDoc, deleteDoc, getDoc } from "firebase/firestore"; 
+import { collection, doc, getDocs, addDoc, updateDoc, deleteDoc, getDoc } from "firebase/firestore"; 
+import { Modal,Spin,Row,Col,Form, Input, Button } from 'antd';
+import {BsFillArrowLeftCircleFill} from 'react-icons/bs';
+
+
 
 
 const Grubs = () => {
   const [cityData, setCityData] = useState(null);
-  const [grubsData, setGrubsData] = useState([]); // Add state for grubs data
+  const [grubsData, setGrubsData] = useState([]); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { id: cityId } = useParams();
   const navigate = useNavigate();
 
@@ -83,12 +88,24 @@ const Grubs = () => {
     }
   }, [cityData]);
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <Container>
       <ContentContainer>
-        <BackButton onClick={handleGoBack}>Go Back</BackButton>
         {cityData ? (
           <>
+            <BackButton onClick={handleGoBack}><BsFillArrowLeftCircleFill/></BackButton>
             <HeaderCity>
               <HeaderTop>
                 {cityData.name}
@@ -97,16 +114,46 @@ const Grubs = () => {
                 {cityData.state}
               </HeaderBottom>
             </HeaderCity>
+            <AddGrubButton onClick={showModal}>+</AddGrubButton>
+            <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+            footer={[
+                <button>
+                  Submit
+                </button>,
+              ]}
+            >
+            <Form>
+              <Form.Item name="grub" label="Grub" rules={[{ required: true }]}>
+                <Input type="number" />
+              </Form.Item>
+              <Form.Item name="service" label="Service" rules={[{ required: true }]}>
+                <Input type="number" />
+              </Form.Item>
+              <Form.Item name="ambience" label="Ambience" rules={[{ required: true }]}>
+                <Input type="number" />
+              </Form.Item>
+              <Form.Item>
+              </Form.Item>
+            </Form>
+            </Modal>
+            {grubsData.map(grub => (
+              <GrubContainer key={grub.id}>
+                <Row gutter={[8, 8]} justify="center" align="middle">
+                  <Col span={21}>
+                    {grub.name}
+                    <br/>
+                    {grub.type}
+                  </Col>
+                  <Col span={3}>
+                    {grub.total}
+                  </Col>
+                </Row>
+              </GrubContainer>
+            ))}
           </>
         ) : (
-          <p>Loading city data...</p>
+          <Spin  justify="center" align="middle"/>
         )}
-        {/* Render grubs data */}
-        {grubsData.map(grub => (
-          <div key={grub.id}>
-            {grub.name}
-          </div>
-        ))}
       </ContentContainer>
     </Container>
   );
@@ -151,10 +198,32 @@ const BackButton = styled.button`
   top: 10px; /* Adjust top value to desired position */
   left: 10px; /* Adjust left value to desired position */
   background-color: #ccc;
-  padding: 10px 20px;
+  padding: 5px 20px 0px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size:20px;
+  color:#ffffff;
 `;
+
+const AddGrubButton = styled.div`
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+  text-align:center;
+  border-radius: 15px;
+  padding: 20px;
+  background:#0C86D6;
+  margin-top:10px;
+`
+const GrubContainer = styled.div`
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  transform-origin: top center;
+  cursor: pointer;
+`;
+
 
 export default Grubs;

@@ -35,10 +35,10 @@ const Cities = ({ cities, handleDelete}) => {
       {cities.map((city, index) => (
         <CityContainer key={index} selected={city === selectedCity}>
           <Row gutter={[8, 8]} style={{ textAlign: 'left', width: '100%' }} align="middle" justify="space-between">
-            <Col span={20} onClick={() => handleContainerClick(city)}>
+            <Col span={22} onClick={() => handleContainerClick(city)}>
               <CityName>{city.name}</CityName>
             </Col>
-            <Col span={4}>
+            <Col span={2}>
               <DotsContainer onClick={() => handleDotsClick(city)}>
                 {showX ? (
                   // Display X icon if showX is true

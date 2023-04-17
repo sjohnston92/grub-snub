@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 //Firbase
-import { collection, doc, setDoc, getDocs,addDoc,updateDoc,deleteDoc} from "firebase/firestore"; 
+import { collection, doc, getDocs,addDoc,updateDoc,deleteDoc} from "firebase/firestore"; 
 import { signOut } from "firebase/auth";
 import { auth,db} from '../firebase';
 
@@ -13,7 +13,7 @@ import Cities from '../components/Cities';
 
 // Imported Styles and UI
 import FoodBack from '../images/foodBacker.jpeg'
-import { Modal } from 'antd';
+import { Modal ,Form,Button,Input} from 'antd';
 import styled from 'styled-components';
 
 
@@ -59,6 +59,7 @@ const Home = () => {
             navigate("/");
             console.log("Signed out successfully")
         }).catch((error) => {
+            console.error("Error logging out:", error);
         });
     }
 
@@ -166,28 +167,29 @@ const Home = () => {
                     <AddCityButton onClick={showModal}>+</AddCityButton>
                     <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                     footer={[
-                       <button onClick={handleCreate}>
+                       <Button onClick={handleCreate}>
                           Submit
-                        </button>,
+                        </Button>,
                       ]}
                     >
-                        <form>
-                        <label htmlFor="modalName">Name:</label>
-                        <input
+                    <Form>
+                        <Form.Item name="modalName" label="City Name" rules={[{ required: true }]}>
+                            <Input 
                             type="text"
                             id="modalName"
                             value={name}
                             onChange={handleModalNameChange}
-                        />
-                        <label htmlFor="modalState">State:</label>
-                        <input
+                             />
+                        </Form.Item>
+                        <Form.Item name="modalState" label="State Name" rules={[{ required: true }]}>
+                            <Input 
                             type="text"
                             id="modalState"
                             value={state}
                             onChange={handleModalStateChange}
-                        />
-                    </form>
-                     
+                            />
+                        </Form.Item>
+                    </Form>
                     </Modal>
                 </div>
             </MainContainer>
