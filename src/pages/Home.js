@@ -25,8 +25,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     // Auth
-    const [userEmail, setUserEmail] = useState(null);
-    const [firstName, setFirstName] = useState(null);
+    const [user, setUser] = useState(null);
 
     // Navigation
     const citiesRef = collection(db, "cities");
@@ -46,8 +45,7 @@ const Home = () => {
     useEffect(() => {
         const user = auth.currentUser;
         if (user) {
-            setUserEmail(user.email);
-            setFirstName(user.displayName.split(' ')[0]); // Get the first name from the display name
+            setUser(user);
         }
         getCities();
         getGrubs();
@@ -149,9 +147,7 @@ const Home = () => {
     return (
         <DashContainer>
             <ProfileContainer>
-                <p>
-                    Welcome Home, {firstName}
-                </p>
+                <Profile user={user} />
             </ProfileContainer>
             <MainContainer>
                 <div>
