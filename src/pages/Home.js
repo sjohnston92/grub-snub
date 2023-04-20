@@ -160,7 +160,7 @@ const Home = () => {
                     {showAllGrubs && <AllGrubs grubs={grubsData}/>}
                     {showCities && !showAllGrubs && <Cities  cities={cities}  handleDelete={handleDelete} />}
 
-                    <AddCityButton onClick={showModal}>+</AddCityButton>
+                    {showCities && !showAllGrubs && <AddCityButton onClick={showModal}>+</AddCityButton>}
                     <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                     footer={[
                        <Button onClick={handleCreate}>
@@ -196,6 +196,7 @@ const Home = () => {
     )
 }
 
+//Styled Componets 
 const DashContainer = styled.div`
     background-image: url(${FoodBack});
     background-position: center;

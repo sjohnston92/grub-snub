@@ -6,8 +6,6 @@ import FoodBack from '../images/foodBacker.jpeg'
 import { collection, doc, getDocs, addDoc, updateDoc, deleteDoc, getDoc } from "firebase/firestore"; 
 import { Modal,Spin,Row,Col,Form, Input, Slider } from 'antd';
 import {BsFillArrowLeftCircleFill} from 'react-icons/bs';
-import { type } from '@testing-library/user-event/dist/type';
-
 
 
 
@@ -166,7 +164,6 @@ const Grubs = () => {
             onChange={handleGrubChange}
             marks={{ 1: '1', 10: '10' }}
             step={0.1}
-            tipFormatter={(value) => value.toFixed(1)} 
           />
         </Form.Item>
         <Form.Item name="service" label="Quality of Service" rules={[{ required: true }]}>
@@ -178,7 +175,6 @@ const Grubs = () => {
             max={10}
             marks={{ 1: '1', 10: '10' }}
             step={0.1}
-            tipFormatter={(value) => value.toFixed(1)}
           />
         </Form.Item>
         <Form.Item name="ambience" label="Ambience of Restaurant" rules={[{ required: true }]}>
@@ -190,7 +186,6 @@ const Grubs = () => {
             onChange={handleAmbienceChange}
             marks={{ 1: '1', 10: '10' }}
             step={0.1}
-            tipFormatter={(value) => value.toFixed(1)}
           />
         </Form.Item>
         <Form.Item name="type" label="Type of Restaurant" rules={[{ required: true }]}>
@@ -206,14 +201,12 @@ const Grubs = () => {
             {grubsData.map(grub => (
               <GrubContainer key={grub.id}>
                 <Row gutter={[8, 8]} justify="center" align="middle">
-                  <Col span={21}>
+                  <Col span={20}>
                     {grub.name}
-                    <br/>
-                    {grub.style}
                   </Col>
-                  <Col span={3}>
+                  <NumberCol  span={4}>
                     {grub.total}
-                  </Col>
+                  </NumberCol >
                 </Row>
               </GrubContainer>
             ))}
@@ -225,6 +218,17 @@ const Grubs = () => {
     </Container>
   );
 };
+
+const NumberCol = styled(Col)`
+  background: #F04D6D;
+  border-radius: 19%;
+  padding:20px;
+  padding-left:20px;
+  color:white;
+  font-size:20px;
+  font-weight:800;
+  text-align:center;
+`
 
 const Container = styled.div`
   background-image: url(${FoodBack});
@@ -250,14 +254,16 @@ const HeaderCity = styled.div`
   text-align:center;
   text-transform
 `
+
 const HeaderTop = styled.div`
   font-size: 24px; /* set desired font size */
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* set desired drop shadow */
   line-height: 1.2; /* set desired line height */
   letter-spacing: 1px; /* set desired letter spacing */
 `
+
 const HeaderBottom = styled.div`
-color: rgba(128, 128, 128, 0.7);
+  color: rgba(128, 128, 128, 0.7);
 `;
 
 const BackButton = styled.button`
@@ -281,16 +287,16 @@ const AddGrubButton = styled.div`
   background:#0C86D6;
   margin-top:10px;
 `
+
 const GrubContainer = styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
-  padding: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
   transition: all 0.3s ease;
   transform-origin: top center;
   cursor: pointer;
+  padding-left:10px;
 `;
-
 
 export default Grubs;
