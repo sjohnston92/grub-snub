@@ -6,6 +6,8 @@ import FoodBack from '../images/foodBacker.jpeg'
 import { collection, doc, getDocs, addDoc, updateDoc, deleteDoc, getDoc } from "firebase/firestore"; 
 import { Modal,Spin,Row,Col,Form, Input, Slider } from 'antd';
 import {BsFillArrowLeftCircleFill} from 'react-icons/bs';
+import {FaPlus} from 'react-icons/fa'
+
 
 
 
@@ -138,7 +140,7 @@ const Grubs = () => {
                 {cityData.state}
               </HeaderBottom>
             </HeaderCity>
-            <AddGrubButton onClick={showModal}>+</AddGrubButton>
+            <AddGrubButton onClick={showModal}><FaPlus/></AddGrubButton>
             <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
             footer={[
                 <button onClick={createGrub}>
@@ -286,6 +288,7 @@ const AddGrubButton = styled.div`
   padding: 20px;
   background:#0C86D6;
   margin-top:10px;
+  color:white;
 `
 
 const GrubContainer = styled.div`

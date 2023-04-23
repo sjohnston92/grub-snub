@@ -14,6 +14,7 @@ import Cities from '../components/Cities';
 // Imported Styles and UI
 import FoodBack from '../images/foodBacker.jpeg'
 import { Modal ,Form,Button,Input} from 'antd';
+import {FaTrophy,FaCity,FaPlus} from 'react-icons/fa'
 import styled from 'styled-components';
 
 
@@ -67,6 +68,8 @@ const Home = () => {
             const citiesSnapshot = await getDocs(citiesRef);
             const citiesData = citiesSnapshot.docs.map(doc => doc.data());
             setCities(citiesData);
+            setName('');
+            setState('');
         } catch (error) {
             console.error("Error getting cities data:", error);
         }
@@ -151,16 +154,18 @@ const Home = () => {
             </ProfileContainer>
             <MainContainer>
                 <div>
-                    <button onClick={handleShowCities}>
-                        Cities
-                    </button>
-                    <button onClick={handleShowAllGrubs}>
-                        Top Spots
-                    </button>
+                    <MenuContainer>
+                        <MenuButton onClick={handleShowCities}>
+                            <FaCity/>
+                        </MenuButton>
+                        <MenuButton onClick={handleShowAllGrubs}>
+                            <FaTrophy/>
+                        </MenuButton>
+                    </MenuContainer>
                     {showAllGrubs && <AllGrubs grubs={grubsData}/>}
                     {showCities && !showAllGrubs && <Cities  cities={cities}  handleDelete={handleDelete} />}
 
-                    {showCities && !showAllGrubs && <AddCityButton onClick={showModal}>+</AddCityButton>}
+                    {showCities && !showAllGrubs && <AddCityButton onClick={showModal}><FaPlus/></AddCityButton>}
                     <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
                     footer={[
                        <Button onClick={handleCreate}>
@@ -211,10 +216,31 @@ const ProfileContainer = styled.div`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     margin-bottom:10px;   
 `
+
 const MainContainer = styled.div`
     border-radius: 15px;
     padding: 20px;
     background: #FFFFFF;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);   
+`
+
+const MenuContainer = styled.div`
+    justify-content:center; 
+    display:flex;
+    margin-bottom:15px;
+    text-align:center;
+    text-transform:uppercase;
+`
+
+const MenuButton = styled.div`
+    margin-left:5px;
+    margin-right:5px;
+    padding:10px;
+    font-size:25px;
+    border-radius: 15px;
+    background: #06D6A0;
+    color:#ffffff;
+    width:20%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);   
 `
 const LogoutContainer = styled.div`
@@ -237,6 +263,7 @@ const AddCityButton = styled.div`
     border-radius: 15px;
     padding: 20px;
     background:#0C86D6;
+    color:#ffffff;
 
 `
 

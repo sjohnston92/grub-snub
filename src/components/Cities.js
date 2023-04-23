@@ -4,7 +4,7 @@ import { BsThreeDotsVertical, BsFillTrash3Fill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import {Row,Col} from 'antd'
 import { BsX } from 'react-icons/bs';
-
+import {FaShare,FaEdit} from 'react-icons/fa'
 
 const Cities = ({ cities, handleDelete}) => {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -37,6 +37,9 @@ const Cities = ({ cities, handleDelete}) => {
           <Row gutter={[8, 8]} style={{ textAlign: 'left', width: '100%' }} align="middle" justify="space-between">
             <Col span={22} onClick={() => handleContainerClick(city)}>
               <CityName>{city.name}</CityName>
+              <br/>
+              <span>{city.state}</span>
+
             </Col>
             <Col span={2}>
               <DotsContainer onClick={() => handleDotsClick(city)}>
@@ -56,6 +59,9 @@ const Cities = ({ cities, handleDelete}) => {
                   <Form>
                     {/* Render the form content */}
                   </Form>
+                  <EditButton style={{ textAlign: 'center' }}>
+                    <FaEdit/>
+                  </EditButton>
                   <DeleteButton onClick={() => handleCityDelete(city)} style={{ textAlign: 'center' }}>
                     <BsFillTrash3Fill />
                   </DeleteButton>
@@ -72,6 +78,7 @@ const Cities = ({ cities, handleDelete}) => {
 
 const CityContainer = styled.div`
   display:flex;
+  background:#FFFFFF;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   text-align: center;
   border-radius: 15px;
@@ -107,6 +114,14 @@ const Form = styled.form`
 const DeleteButton = styled.div`
   color: #ffffff;
   background: #f04d6d;
+  padding: 10px;
+  border-radius: 15px;
+  margin-top:10px;
+`;
+
+const EditButton = styled.div`
+  color: #ffffff;
+  background: #FFC43D;
   padding: 10px;
   border-radius: 15px;
 `;
