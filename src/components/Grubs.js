@@ -6,7 +6,7 @@ import FoodBack from '../images/foodBacker.jpeg'
 import { collection, doc, getDocs, addDoc, updateDoc, deleteDoc, getDoc } from "firebase/firestore"; 
 import { Modal,Spin,Row,Col,Form, Input, Slider } from 'antd';
 import {BsFillArrowLeftCircleFill} from 'react-icons/bs';
-import {FaPlus} from 'react-icons/fa'
+import {FaPlus,FaTrophy,FaCity,FaSortAlphaDown,FaListOl} from 'react-icons/fa'
 
 
 
@@ -200,6 +200,20 @@ const Grubs = () => {
         </Form.Item>
         </Form>
             </Modal>
+            <MenuContainer>
+                <MenuButton>
+                    <FaCity/>
+                </MenuButton>
+                <MenuButton>
+                    <FaListOl/>
+                </MenuButton>
+                <MenuButton>
+                    <FaSortAlphaDown/>
+                </MenuButton>
+                <MenuButton>
+                    <FaTrophy/>
+                </MenuButton>
+            </MenuContainer>
             {grubsData.map(grub => (
               <GrubContainer key={grub.id}>
                 <Row gutter={[8, 8]} justify="center" align="middle">
@@ -301,5 +315,26 @@ const GrubContainer = styled.div`
   cursor: pointer;
   padding-left:10px;
 `;
+
+const MenuContainer = styled.div`
+    justify-content:center; 
+    display:flex;
+    margin-bottom:10px;
+    margin-top:10px;
+    text-align:center;
+    text-transform:uppercase;
+`
+
+const MenuButton = styled.div`
+    margin:5px; 
+    padding:5px;
+    font-size:25px;
+    border-radius: 15px;
+    background: #FFFFFF;
+    color:#F04D6D;
+    width:20%;
+    border:5px solid #F04D6D;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);   
+`
 
 export default Grubs;

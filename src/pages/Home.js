@@ -14,7 +14,7 @@ import Cities from '../components/Cities';
 // Imported Styles and UI
 import FoodBack from '../images/foodBacker.jpeg'
 import { Modal ,Form,Button,Input} from 'antd';
-import {FaTrophy,FaCity,FaPlus} from 'react-icons/fa'
+import {FaTrophy,FaCity,FaPlus,FaSortAlphaDown,FaListOl} from 'react-icons/fa'
 import styled from 'styled-components';
 
 
@@ -116,6 +116,26 @@ const Home = () => {
             }
     }
 
+    // handleShowAZ -> void
+    const handleShowAZ = () => {
+        const sortedCities = [...cities].sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
+        setCities(sortedCities);
+        setShowAllGrubs(false);
+        setShowCities(true)
+    };
+
+    const renderCitiesByGrubCount = (grubsData, cities) => {
+            console.log('hi coming soon')
+      };
+
     // Modals Below
     const handleShowAllGrubs = () => {
         setShowAllGrubs(true);
@@ -152,16 +172,22 @@ const Home = () => {
             <ProfileContainer>
                 <Profile user={user} />
             </ProfileContainer>
+            <MenuContainer>
+                <MenuButton onClick={handleShowCities}>
+                    <FaCity/>
+                </MenuButton>
+                <MenuButton onClick={renderCitiesByGrubCount(cities,grubsData)}>
+                    <FaListOl/>
+                </MenuButton>
+                <MenuButton onClick={handleShowAZ}>
+                    <FaSortAlphaDown/>
+                </MenuButton>
+                <MenuButton onClick={handleShowAllGrubs}>
+                    <FaTrophy/>
+                </MenuButton>
+            </MenuContainer>
             <MainContainer>
                 <div>
-                    <MenuContainer>
-                        <MenuButton onClick={handleShowCities}>
-                            <FaCity/>
-                        </MenuButton>
-                        <MenuButton onClick={handleShowAllGrubs}>
-                            <FaTrophy/>
-                        </MenuButton>
-                    </MenuContainer>
                     {showAllGrubs && <AllGrubs grubs={grubsData}/>}
                     {showCities && !showAllGrubs && <Cities  cities={cities}  handleDelete={handleDelete} />}
 
@@ -227,20 +253,23 @@ const MainContainer = styled.div`
 const MenuContainer = styled.div`
     justify-content:center; 
     display:flex;
-    margin-bottom:15px;
+    margin-bottom:10px;
     text-align:center;
     text-transform:uppercase;
+    background:#FFFFFF;
+    border-radius:15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 `
 
 const MenuButton = styled.div`
-    margin-left:5px;
-    margin-right:5px;
-    padding:10px;
+    margin:5px; 
+    padding:5px;
     font-size:25px;
     border-radius: 15px;
-    background: #06D6A0;
-    color:#ffffff;
+    background: #FFFFFF;
+    color:#F04D6D;
     width:20%;
+    border:5px solid #F04D6D;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);   
 `
 const LogoutContainer = styled.div`
@@ -264,7 +293,6 @@ const AddCityButton = styled.div`
     padding: 20px;
     background:#0C86D6;
     color:#ffffff;
-
 `
 
 export default Home;
